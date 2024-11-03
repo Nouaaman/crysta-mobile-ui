@@ -3,7 +3,7 @@ import { Stack } from "expo-router";
 import "../global.css";
 
 
-export default function HomeLayout() {
+export default function RootLayout() {
     return (
         <Stack>
             <Stack.Screen name="home" />
