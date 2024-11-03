@@ -1,5 +1,12 @@
-import { Slot } from "expo-router";
+import { Stack } from "expo-router";
 
 import "../global.css";
 
-export default Slot;
+
+export default function HomeLayout() {
+    return (
+        <Stack>
+            <Stack.Screen name="home" />
+        </Stack>
+    );
+}
