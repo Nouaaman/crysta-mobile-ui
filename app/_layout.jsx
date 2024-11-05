@@ -1,12 +1,14 @@
-import { Stack } from "expo-router";
+import { SplashScreen, Stack } from "expo-router";
 
 import "../global.css";
+
+SplashScreen.preventAutoHideAsync();
 
 
 export default function RootLayout() {
     return (
         <Stack>
-            <Stack.Screen name="home" />
+            <Stack.Screen name="index" />
         </Stack>
     );
 }
