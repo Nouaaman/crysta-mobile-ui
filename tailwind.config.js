@@ -6,13 +6,20 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: "#B23EFF",
-        secondary: "#FDC500",
-        lightYellow: "#FFE352",
-        darkPurple: "#1F0034",
-        black: "#0E0E0E",
-        bg: "#161622",
-        white: "#eee",
+        primary: "#161622",
+        secondary: {
+          DEFAULT: "#FDC500",
+          100: "#FFE352",
+        },
+        _purple: {
+          DEFAULT: "#B23EFF",
+          900: "#1F0034",
+        },
+        black: {
+          DEFAULT: "#000",
+          100: "#0E0E0E",
+          200: "#232533",
+        },
       },
       fontFamily: {
         pthin: ["Poppins-Thin", "sans-serif"],
