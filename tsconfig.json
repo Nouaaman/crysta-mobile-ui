@@ -5,19 +5,7 @@
     "paths": {
       "@/*": [
         "./*"
-      ],
-      "@components/*": [
-        "./components/*"
-      ],
-      "@constants": [
-        "./constants"
-      ],
-      "@hooks/*": [
-        "./hooks/*"
-      ],
-      "@assets/*": [
-        "./assets/*"
-      ],
+      ]
     }
   },
   "include": [

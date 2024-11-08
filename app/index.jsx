@@ -1,8 +1,8 @@
 import { View, Text, ScrollView, Image } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { images } from '@constants'
+import { images } from '../constants'
 import { StatusBar } from 'expo-status-bar'
-import CustomButton from '@components/ui/CustomButton'
+import CustomButton from '../components/customButton'
 import { router } from 'expo-router'
 
 const Welcome = () => {
