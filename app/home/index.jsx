@@ -1,14 +1,13 @@
 import { View, Text, Image } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { images, icons } from '@constants'
-import MaskedView from '@components/MaskedView'
+import MaskedView from '@components/ui/maskedText'
 
 
 const Home = () => {
     return (
         <View className="flex-1">
-            <Text>Featured AI Tools</Text>
-            <MaskedView />
+            <MaskedView text='Featured AI Tools' icon={icons.sparkles} />
         </View>
     )
 }

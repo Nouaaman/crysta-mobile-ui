@@ -15,6 +15,9 @@
       "@hooks/*": [
         "./hooks/*"
       ],
+      "@assets/*": [
+        "./assets/*"
+      ],
     }
   },
   "include": [
