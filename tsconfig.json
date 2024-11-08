@@ -5,12 +5,21 @@
     "paths": {
       "@/*": [
         "./*"
-      ]
+      ],
+      "@components/*": [
+        "./components/*"
+      ],
+      "@constants": [
+        "./constants"
+      ],
+      "@hooks/*": [
+        "./hooks/*"
+      ],
     }
   },
   "include": [
     "**/*.ts",
-    "**/*.tsx",
+    "** /*.tsx",
     ".expo/types/**/*.ts",
     "expo-env.d.ts",
     "nativewind-env.d.ts"

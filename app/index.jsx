@@ -1,13 +1,11 @@
 import { View, Text, ScrollView, Image } from 'react-native'
-import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { images } from '../constants'
+import { images } from '@constants'
 import { StatusBar } from 'expo-status-bar'
-import CustomButton from '../components/ui/CustomButton'
+import CustomButton from '@components/ui/CustomButton'
+import { router } from 'expo-router'
 
-
-
-export default function Welcome() {
+const Welcome = () => {
     return (
         <SafeAreaView className="flex-1 bg-primary">
             {/* bg radial gradient */}
@@ -30,10 +28,12 @@ export default function Welcome() {
                     <Text className=" font-pregular text-gray-100 mt-6 text-center">
                         Upscale, Enhance, Denoise, and Deblur your{"\n"}Photos — all with Crysta’s powerful tools.
                     </Text>
-                    <CustomButton title="Get Started" handlePress={() => { }} containerStyles="w-full mt-9" />
+                    <CustomButton title="Get Started" handlePress={() => router.replace('/home')} containerStyles="w-full mt-9" />
                 </View>
             </ScrollView>
             <StatusBar style="light" />
         </SafeAreaView>
     )
 }
+
+export default Welcome
