@@ -17,7 +17,8 @@ export default function MaskedContent({ children }) {
 
             <LinearGradient
                 colors={['#B23EFF', '#FDC500']}
-                start={[0, 0.5]}
+                start={[0, 0]}
+                end={[1, 1]}
                 className='self-start flex-row gap-2 items-center'
             >
 
