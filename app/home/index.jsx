@@ -5,8 +5,8 @@ import ToolCard from '../../components/toolCard'
 
 const Home = () => {
     return (
-        <View className="flex-1 mt-2">
-            <View className='flex-row items-center  gap-2'>
+        <View className="flex-1">
+            <View className='flex-row items-center gap-2'>
                 <MaskedContent >
                     <Image source={icons.sparkles} resizeMode='contain' className='size-5' />
                 </MaskedContent>
