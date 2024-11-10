@@ -1,7 +1,6 @@
-import { Image, Text, View } from 'react-native'
+import { View } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient';
 import MaskedView from '@react-native-masked-view/masked-view';
-import { useEffect, useState } from 'react';
 
 export default function MaskedContent({ children }) {
 

@@ -1,7 +1,7 @@
 import { View, Text, Image, Pressable } from 'react-native'
-import React from 'react'
 import { icons } from '../constants'
 import { BlurView } from 'expo-blur'
+
 
 
 const ToolCard = ({ title, description, image, handleClick }) => {

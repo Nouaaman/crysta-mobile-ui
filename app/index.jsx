@@ -5,7 +5,10 @@ import { StatusBar } from 'expo-status-bar'
 import CustomButton from '../components/customButton'
 import { router } from 'expo-router'
 
+
 const Welcome = () => {
+
+
     return (
         <SafeAreaView className="flex-1 bg-primary">
             {/* bg radial gradient */}
@@ -28,7 +31,7 @@ const Welcome = () => {
                     <Text className=" font-pregular text-gray-100 mt-6 text-center">
                         Upscale, Enhance, Denoise, and Deblur your{"\n"}Photos — all with Crysta’s powerful tools.
                     </Text>
-                    <CustomButton title="Get Started" handlePress={() => router.replace('/home')} containerStyles="w-full mt-9" />
+                    <CustomButton title="Get Started" handlePress={() => router.push('/home')} containerStyles="w-full mt-9" />
                 </View>
             </ScrollView>
             <StatusBar style="light" />
