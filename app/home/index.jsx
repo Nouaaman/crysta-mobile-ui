@@ -15,9 +15,10 @@ const Home = () => {
                 </MaskedContent>
             </View>
 
-            <ScrollView className='flex-1 mt-4' showsVerticalScrollIndicator={false} contentContainerStyle={{
+            <ScrollView className='flex-1 mt-4' showsVerticalScrollIndicator={true} contentContainerStyle={{
                 gap: 24,
-                paddingBottom: 48,
+                padding: 12,
+
             }}>
 
                 <ToolCard title='Upscale' description="Upscale Your Images." image={images.demoUpscale} handleClick={() => { }} />

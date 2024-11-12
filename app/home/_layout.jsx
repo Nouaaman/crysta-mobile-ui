@@ -14,7 +14,7 @@ const HomeLayout = () => {
                 {/* header */}
                 <Header />
                 {/* content */}
-                <View className='flex-1 px-4'>
+                <View className='flex-1 '>
                     <Slot />
                 </View>
 
