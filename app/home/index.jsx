@@ -6,16 +6,16 @@ import ToolCard from '../../components/toolCard'
 const Home = () => {
     return (
         <View className="flex-1">
-            <View className='flex-row items-center gap-2'>
+            <View className='flex-row items-center gap-2 px-4'>
                 <MaskedContent >
                     <Image source={icons.sparkles} resizeMode='contain' className='size-5' />
                 </MaskedContent>
                 <MaskedContent >
-                    <Text className='text-xl font-plight'>Featured AI Tools</Text>
+                    <Text className='text-xl font-pextralight'>Featured AI Tools</Text>
                 </MaskedContent>
             </View>
 
-            <ScrollView className='flex-1 mt-4' showsVerticalScrollIndicator={true} contentContainerStyle={{
+            <ScrollView className='flex-1 mt-2' showsVerticalScrollIndicator={true} contentContainerStyle={{
                 gap: 24,
                 padding: 12,
 

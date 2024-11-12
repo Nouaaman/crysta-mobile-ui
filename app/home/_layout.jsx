@@ -10,7 +10,7 @@ const HomeLayout = () => {
             {/* bg radial gradient and patterns */}
             <Image source={images.topRightRadialGradient} resizeMode='cover' className='absolute top-0 left-0 w-full h-full' />
             <Image source={images.pattern2} resizeMode='contain' className='absolute top-0 right-0 size-80 opacity-50' />
-            <SafeAreaView className="flex-1 px-4 pt-4">
+            <SafeAreaView className="flex-1 px-4 pt-2">
                 {/* header */}
                 <Header />
                 {/* content */}
