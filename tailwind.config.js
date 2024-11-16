@@ -11,10 +11,10 @@ module.exports = {
           DEFAULT: "#FDC500",
           100: "#FFE352",
         },
-        _purple: {
-          DEFAULT: "#B23EFF",
-          900: "#1F0034",
-        },
+        purple1: '#B23EFF',
+        purple2: '#B23EFF',
+        purple2: '#1F0034',
+
         black: {
           DEFAULT: "#000",
           100: "#0E0E0E",

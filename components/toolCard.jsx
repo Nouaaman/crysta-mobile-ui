@@ -16,7 +16,7 @@ const ToolCard = ({ title, description, image, handleClick }) => {
                 <Image source={icons.sparkles} resizeMode='cover' className='absolute top-4 right-4 size-8 shadow-lg' />
                 <View className='absolute bottom-0 inset-x-0'>
                     <LinearGradient
-                        colors={['rgba(0,0,0,0.7)', 'rgba(0,0,0,0.5)', 'rgba(0,0,0,0.2)', 'rgba(0,0,0,0)']}
+                        colors={['rgba(0,0,0,0.8)', 'rgba(0,0,0,0.5)', 'rgba(0,0,0,0.2)', 'rgba(0,0,0,0)']}
                         start={[0.5, 1]}
                         end={[0.5, 0]}
                     >
