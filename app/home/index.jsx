@@ -3,7 +3,7 @@ import { images, icons } from '../../constants'
 import MaskedContent from '../../components/maskedContent'
 import ToolCard from '../../components/toolCard'
 import { router } from 'expo-router'
-import Animated, { FadeInDown, FadeInRight } from 'react-native-reanimated'
+import Animated, { FadeInDown } from 'react-native-reanimated'
 
 const Home = () => {
     return (
@@ -22,6 +22,7 @@ const Home = () => {
                 padding: 12,
 
             }}>
+
                 <Animated.View entering={FadeInDown.delay(400).springify()}>
                     <ToolCard title='Upscale' description="Upscale Your Images." image={images.demoUpscale} handleClick={() => router.push('upscale')} />
                 </Animated.View>

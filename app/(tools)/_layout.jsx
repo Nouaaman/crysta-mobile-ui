@@ -5,8 +5,8 @@ const ToulsLayout = () => {
         <Stack
             screenOptions={{
                 headerShown: false,
-                animation: 'slide_from_left',
             }}
+
 
         >
             <Stack.Screen name="deblur" />
