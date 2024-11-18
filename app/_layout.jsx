@@ -2,11 +2,14 @@ import { SplashScreen, Stack } from "expo-router";
 import "../global.css";
 import { useFonts } from "expo-font";
 import { useEffect } from "react";
+import { View } from "react-native";
+
 
 SplashScreen.preventAutoHideAsync();
 
 
 const RootLayout = () => {
+
 
     const [fontsLoaded, error] = useFonts({
         "Poppins-Black": require("../assets/fonts/Poppins-Black.ttf"),
@@ -37,11 +40,13 @@ const RootLayout = () => {
     }
 
     return (
-        <Stack screenOptions={{ headerShown: false }} >
-            <Stack.Screen name="(tools)" options={{ animation: 'slide_from_right' }} />
-            <Stack.Screen name="home" />
-            <Stack.Screen name="index" />
-        </Stack>
+        <View className="flex-1 bg-primary">
+            <Stack screenOptions={{ headerShown: false }} >
+                <Stack.Screen name="(tools)" options={{ animation: 'slide_from_right' }} />
+                <Stack.Screen name="home" />
+                <Stack.Screen name="index" />
+            </Stack>
+        </View>
     );
 }
 

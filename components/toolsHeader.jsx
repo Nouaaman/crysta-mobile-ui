@@ -6,7 +6,7 @@ import { icons } from '../constants'
 
 const ToolsHeader = ({ title, goBack }) => {
     return (
-        <Animated.View entering={FadeInRight.delay(350).springify()} className="w-full flex-row justify-center items-center">
+        <Animated.View entering={FadeInRight.delay(250).springify()} className="w-full flex-row justify-center items-center">
             <TouchableOpacity onPress={goBack} className="absolute left-0">
                 <Image source={icons.arrowLeft} resizeMode='contain' className='size-10' />
             </TouchableOpacity>

@@ -14,7 +14,6 @@ const Upscale = () => {
             <View className='p-4'>
                 <ToolsHeader title='Upscale' goBack={() => router.back()} />
             </View>
-            <Text>Upscale</Text>
         </SafeAreaView>
     )
 }

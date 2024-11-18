@@ -1,13 +1,13 @@
-import logo from "../assets/images/logo.png";
-import centerRadialGradient from "../assets/images/center-radial-gradient.png";
-import cards from "../assets/images/cards.png";
-import pattern1 from "../assets/images/pattern1.png";
-import pattern2 from "../assets/images/pattern2.png";
-import topRightRadialGradient from "../assets/images/top-right-radial-gradient.png";
-import demoDeblur from "../assets/images/demo-deblur.png";
-import demoDenoise from "../assets/images/demo-denoise.png";
-import demoEnhance from "../assets/images/demo-enhance.png";
-import demoUpscale from "../assets/images/demo-upscale.png";
+const logo = require("../assets/images/logo.png");
+const centerRadialGradient = require("../assets/images/center-radial-gradient.png");
+const cards = require("../assets/images/cards.png");
+const pattern1 = require("../assets/images/pattern1.png");
+const pattern2 = require("../assets/images/pattern2.png");
+const topRightRadialGradient = require("../assets/images/top-right-radial-gradient.png");
+const demoDeblur = require("../assets/images/demo-deblur.png");
+const demoDenoise = require("../assets/images/demo-denoise.png");
+const demoEnhance = require("../assets/images/demo-enhance.png");
+const demoUpscale = require("../assets/images/demo-upscale.png");
 
 export default {
   logo,

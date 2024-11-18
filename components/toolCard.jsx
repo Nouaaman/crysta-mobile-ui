@@ -1,4 +1,4 @@
-import { View, Text, Image, Pressable, TouchableHighlight } from 'react-native'
+import { View, Text, Image, TouchableHighlight } from 'react-native'
 import { icons } from '../constants'
 import { LinearGradient } from 'expo-linear-gradient'
 
