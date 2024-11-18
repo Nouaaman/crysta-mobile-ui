@@ -37,10 +37,10 @@ const RootLayout = () => {
     }
 
     return (
-        <Stack>
-            <Stack.Screen name="(tools)" options={{ headerShown: false }} />
-            <Stack.Screen name="home" options={{ headerShown: false }} />
-            <Stack.Screen name="index" options={{ headerShown: false }} />
+        <Stack screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="(tools)" />
+            <Stack.Screen name="home" options={{ animation: 'slide_from_bottom' }} />
+            <Stack.Screen name="index" />
         </Stack>
     );
 }
