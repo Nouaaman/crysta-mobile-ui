@@ -12,7 +12,7 @@ const Deblur = () => {
             <Image source={images.topRightRadialGradient} resizeMode='cover' className='absolute top-0 left-0 w-full h-full' />
             {/* header */}
             <View className='p-4'>
-                <ToolsHeader title='Deblur' goBack={() => router.back()} />
+                <ToolsHeader title='Deblur' subtitle={'Recover lost details and make your images sharp and crystal-clear.'} goBack={() => router.back()} />
             </View>
         </SafeAreaView>
     )

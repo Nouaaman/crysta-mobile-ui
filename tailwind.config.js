@@ -13,9 +13,9 @@ module.exports = {
           100: "#FFE352",
         },
         purple1: '#B23EFF',
-        purple2: '#B23EFF',
-        purple2: '#1F0034',
-
+        purple2: '#910BEA',
+        purple3: '#1F0034',
+        darkBlue: '#161622',
         black: {
           DEFAULT: "#000",
           100: "#0E0E0E",

@@ -12,7 +12,7 @@ const Denoise = () => {
             <Image source={images.topRightRadialGradient} resizeMode='cover' className='absolute top-0 left-0 w-full h-full' />
             {/* header */}
             <View className='p-4'>
-                <ToolsHeader title='Enhance' goBack={() => router.back()} />
+                <ToolsHeader title='Denoise' subtitle={'Remove unwanted noise from your photos for smoother looking images.'} goBack={() => router.back()} />
             </View>
         </SafeAreaView>
     )

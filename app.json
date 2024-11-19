@@ -30,7 +30,13 @@
     },
     "plugins": [
       "expo-router",
-      "expo-font"
+      "expo-font",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Crysta needs access to your photos to enhance and improve them with powerful tools."
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true

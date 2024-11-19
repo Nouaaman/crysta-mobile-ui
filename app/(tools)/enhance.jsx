@@ -12,7 +12,7 @@ const Enhance = () => {
             <Image source={images.topRightRadialGradient} resizeMode='cover' className='absolute top-0 left-0 w-full h-full' />
             {/* header */}
             <View className='p-4'>
-                <ToolsHeader title='Enhance' goBack={() => router.back()} />
+                <ToolsHeader title='Enhance' subtitle={'Automatically adjust lighting and exposure for brighter, vibrant photos.'} goBack={() => router.back()} />
             </View>
         </SafeAreaView>
     )
