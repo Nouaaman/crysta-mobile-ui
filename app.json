@@ -10,7 +10,7 @@
     "userInterfaceStyle": "automatic",
     "backgroundColor": "#161622",
     "splash": {
-      "image": "./assets/images/splash.png",
+      "image": "./assets/images/adaptive-icon.png",
       "resizeMode": "contain",
       "backgroundColor": "#161622"
     },
