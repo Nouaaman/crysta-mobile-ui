@@ -7,11 +7,11 @@
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "myapp",
-    "userInterfaceStyle": "automatic",
+    "userInterfaceStyle": "dark",
     "backgroundColor": "#161622",
     "splash": {
-      "image": "./assets/images/adaptive-icon.png",
-      "resizeMode": "contain",
+      "image": "./assets/images/logo.png",
+      "resizeMode": "native",
       "backgroundColor": "#161622"
     },
     "ios": {
