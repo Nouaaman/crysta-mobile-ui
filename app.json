@@ -10,8 +10,8 @@
     "userInterfaceStyle": "dark",
     "backgroundColor": "#161622",
     "splash": {
-      "image": "./assets/images/logo.png",
-      "resizeMode": "native",
+      "image": "./assets/images/adaptive-icon.png",
+      "resizeMode": "contain",
       "backgroundColor": "#161622"
     },
     "ios": {
