@@ -10,9 +10,9 @@ const ToolsHeader = ({ title, description, goBack }) => {
                 <TouchableOpacity onPress={goBack} className="absolute left-0">
                     <Image source={icons.arrowLeft} resizeMode='contain' className='size-10' />
                 </TouchableOpacity>
-                <Text className="text-2xl font-bold text-white">{title}</Text>
+                <Text className="text-2xl font-pbold text-textBody">{title}</Text>
             </Animated.View>
-            <Animated.Text className='text-gray-300 font-plight text-center mt-6 text-sm'>
+            <Animated.Text className='text-gray-300 font-plight text-center mt-6'>
                 {description}
             </Animated.Text>
         </>
