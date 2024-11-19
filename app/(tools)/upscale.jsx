@@ -4,6 +4,7 @@ import ToolsHeader from '../../components/toolsHeader'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { images } from '../../constants'
 import { router } from 'expo-router'
+import ImageViewer from '../../components/imageViewer'
 
 const Upscale = () => {
     return (
@@ -15,9 +16,8 @@ const Upscale = () => {
                 <ToolsHeader title='Upscale' description='Transform your low-resolution images into high-quality visuals.' goBack={() => router.back()} />
             </View>
             {/* upscale image */}
-            <View className='flex-1 justify-center items-center'>
-                <Image source={images.exampleImage} resizeMode='contain' className='w-full h-64' />
-            </View>
+            <ImageViewer />
+
 
         </SafeAreaView>
     )
