@@ -12,7 +12,7 @@ const ToolsHeader = ({ title, subtitle, goBack }) => {
                 </TouchableOpacity>
                 <Text className="text-2xl font-pbold text-textBody">{title}</Text>
             </Animated.View>
-            <Animated.Text entering={FadeInUp.delay(200)} className='text-gray-300 font-plight text-center mt-6'>
+            <Animated.Text entering={FadeInRight.delay(200)} className='text-gray-300 font-plight text-center mt-6'>
                 {subtitle}
             </Animated.Text>
         </>

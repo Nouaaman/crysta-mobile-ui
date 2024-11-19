@@ -9,7 +9,7 @@ const ImagePicker = ({ selectedImage, handlePress, disabled, handleCancel }) => 
     return (
 
         <View className='flex w-full items-center justify-center bg-purple1/10 rounded-2xl overflow-hidden'>
-            <View className='w-full max-w-[640px] aspect-square '>
+            <View className='w-full max-w-[640px] h-full '>
                 <Image source={imageSource}
                     className='size-full'
                     contentFit='contain'

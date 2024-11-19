@@ -23,8 +23,6 @@ const Upscale = () => {
 
         if (!result.canceled) {
             setSelectedImage(result.assets[0].uri);
-        } else {
-            alert('You did not select any image.');
         }
     };
 
@@ -41,8 +39,7 @@ const Upscale = () => {
                 <ToolsHeader title='Upscale' subtitle='Transform your low-resolution images into high-quality visuals.' goBack={() => router.back()} />
             </View>
             {/* content */}
-            <Animated.View entering={FadeInDown.delay(200)}
-                className='flex-1 justify-between'>
+            <Animated.View entering={FadeInDown.delay(200)} className='flex-1 justify-between'>
                 {/* upscale image */}
                 <View className='flex-1 items-start justify-center'>
                     <View className=' w-full h-auto  mt-4 px-4 '>
@@ -52,7 +49,7 @@ const Upscale = () => {
                     </View>
                 </View>
                 {/* options */}
-                <View className='flex-col w-full mt-8 p-4 pb-5 border-t border-purple2/30'>
+                <View className='flex-col w-full mt-8 p-4 pb-5 border-t-2 border-purple-400/10'>
                     <Text className='px-2 mb-4 text-xl text-textBody font-psemibold'>Preset: x4 • Fast</Text>
                     <View className='flex-row items-center gap-4 justify-stretch w-full '>
                         <OptionsButton title={'Options'} />
