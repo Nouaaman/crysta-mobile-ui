@@ -12,8 +12,13 @@ const Upscale = () => {
             <Image source={images.topRightRadialGradient} resizeMode='cover' className='absolute top-0 left-0 w-full h-full' />
             {/* header */}
             <View className='p-4'>
-                <ToolsHeader title='Upscale' goBack={() => router.back()} />
+                <ToolsHeader title='Upscale' description='Transform your low-resolution images into high-quality visuals.' goBack={() => router.back()} />
             </View>
+            {/* upscale image */}
+            <View className='flex-1 justify-center items-center'>
+                <Image source={images.exampleImage} resizeMode='contain' className='w-full h-64' />
+            </View>
+
         </SafeAreaView>
     )
 }
