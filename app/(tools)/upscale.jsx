@@ -9,11 +9,16 @@ import { router } from 'expo-router'
 import ImagePicker from '../../components/ImagePicker'
 import OptionsButton from '../../components/buttons/optionsButton'
 import { useState } from 'react'
+import BottomSheet from '../../components/bottomSheet'
 
 
 const Upscale = () => {
-
     const [selectedImage, setSelectedImage] = useState(null);
+    const [sheetIsOpen, setSheetIsOpen] = useState(false)
+
+    const toggleSheet = () => {
+        setSheetIsOpen(!sheetIsOpen);
+    };
 
     const pickImageAsync = async () => {
         let result = await expoImgPicker.launchImageLibraryAsync({
@@ -52,11 +57,19 @@ const Upscale = () => {
                 <View className='flex-col w-full mt-8 p-4 pb-5 border-t-2 border-purple-400/10'>
                     <Text className='px-2 mb-4 text-xl text-textBody font-psemibold'>Preset: x4 • Fast</Text>
                     <View className='flex-row items-center gap-4 justify-stretch w-full '>
-                        <OptionsButton title={'Options'} />
+                        <OptionsButton title={'Options'} handlePress={toggleSheet} />
                         <ActionButton title='Upscale' />
                     </View>
                 </View>
             </Animated.View>
+            {/* bottom sheet  options*/}
+            {
+                sheetIsOpen && (
+                    <BottomSheet toggleSheet={toggleSheet}>
+                        <Text className='text-4xlxl text-textBody font-psemibold'>Bottom Sheet</Text>
+                    </BottomSheet>
+                )
+            }
 
         </SafeAreaView>
     )
