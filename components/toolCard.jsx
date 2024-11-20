@@ -21,7 +21,7 @@ const ToolCard = ({ title, description, image, handleClick }) => {
                         end={[0.5, 0]}
                     >
                         <View className='px-6 pb-6 pt-8'>
-                            <Text className='text-2xl mb-2 font-pbold color-white'>{title}</Text>
+                            <Text className='text-2xl mb-1 font-pbold color-white'>{title}</Text>
                             <Text className='font-pregular text-white'>{description}</Text>
                         </View>
                     </LinearGradient>

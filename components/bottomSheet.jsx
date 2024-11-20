@@ -14,7 +14,7 @@ const BottomSheet = ({ children, toggleSheet }) => {
             <Animated.View
                 entering={SlideInDown}
                 exiting={SlideOutDown}
-                className='z-20 bg-gray-800 p-4 w-full h-auto absolute bottom-0 rounded-t-3xl '>
+                className='z-20 bg-gray-800 p-4 w-full h-auto absolute bottom-0 rounded-t-3xl shadow-[0px_-4px_10px_0px_rgba(0,_0,_0,_0.4)] '>
                 {children}
             </Animated.View>
         </>

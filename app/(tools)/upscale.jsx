@@ -22,8 +22,16 @@ const MODES = [
     },
 ]
 
+const UPSCALE_FACTOR = [
+    { label: 'x2', value: 2 },
+    { label: 'x3', value: 3 },
+    { label: 'x4', value: 4 },
+    { label: 'x8', value: 8 },
+]
+
 const Upscale = () => {
     const [selectedImage, setSelectedImage] = useState(null);
+    const [selectedUpsclaeFactor, setSelectedUpsclaeFactor] = useState(UPSCALE_FACTOR[0].value);
     const [selectedMode, setSelectedMode] = useState(MODES[0].value);
     const [sheetIsOpen, setSheetIsOpen] = useState(false)
 
@@ -91,17 +99,24 @@ const Upscale = () => {
                         {/* options  */}
                         <View>
                             {/* upscaling factor */}
-                            <View>
+                            <View className='mb-8'>
                                 <Text className='text-xl text-textBody font-pbold '>Upscaling Factor</Text>
                                 <Text className=' text-textBody'>Choose how much you want to enlarge the image</Text>
+                                <Radio
+                                    options={UPSCALE_FACTOR}
+                                    checkedValue={selectedUpsclaeFactor}
+                                    onChange={(value) => setSelectedUpsclaeFactor(value)}
+                                    containerStyle={'flex-row gap-3 mt-4 items-center justify-center'}
+                                />
                             </View>
                             {/* modes */}
-                            <View className='mt-6'>
+                            <View className='mb-9'>
                                 <Text className='text-xl text-textBody font-pbold mb-2'>Processing Mode</Text>
                                 <Radio
                                     options={MODES}
                                     checkedValue={selectedMode}
                                     onChange={(value) => setSelectedMode(value)}
+                                    containerStyle={'flex gap-3'}
                                 />
                             </View>
 
