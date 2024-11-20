@@ -1,4 +1,4 @@
-import { View, Text, Image } from 'react-native'
+import { View, Text, Image, TouchableOpacity } from 'react-native'
 import Animated, { FadeInDown, FadeInUp } from 'react-native-reanimated'
 import ToolsHeader from '../../components/toolsHeader'
 import ActionButton from '../../components/buttons/actionButton'
@@ -10,11 +10,23 @@ import ImagePicker from '../../components/ImagePicker'
 import OptionsButton from '../../components/buttons/optionsButton'
 import { useState } from 'react'
 import BottomSheet from '../../components/bottomSheet'
+import Radio from '../../components/radio'
 
+
+const MODES = [
+    {
+        label: 'Fast Mode', description: 'Fast and efficient. Ideal for low-end devices or when speed is the priority.', value: 'fast'
+    },
+    {
+        label: 'Detailed Mode', description: 'Best sharpness and clarity. May take longer and can slow down the device.', value: 'detailed'
+    },
+]
 
 const Upscale = () => {
     const [selectedImage, setSelectedImage] = useState(null);
+    const [selectedMode, setSelectedMode] = useState(MODES[0].value);
     const [sheetIsOpen, setSheetIsOpen] = useState(false)
+
 
     const toggleSheet = () => {
         setSheetIsOpen(!sheetIsOpen);
@@ -66,7 +78,34 @@ const Upscale = () => {
             {
                 sheetIsOpen && (
                     <BottomSheet toggleSheet={toggleSheet}>
-                        <Text className='text-4xlxl text-textBody font-psemibold'>Bottom Sheet</Text>
+                        <View className='flex-row items-center justify-between mb-6'>
+                            <Text className='text-3xl text-textBody font-psemibold '>Options</Text>
+
+                            <TouchableOpacity
+                                onPress={toggleSheet}
+                                className='pl-2'
+                            >
+                                <Image source={icons.arrowDown} resizeMode='contain' className=' size-10' />
+                            </TouchableOpacity>
+                        </View>
+                        {/* options  */}
+                        <View>
+                            {/* upscaling factor */}
+                            <View>
+                                <Text className='text-xl text-textBody font-pbold '>Upscaling Factor</Text>
+                                <Text className=' text-textBody'>Choose how much you want to enlarge the image</Text>
+                            </View>
+                            {/* modes */}
+                            <View className='mt-6'>
+                                <Text className='text-xl text-textBody font-pbold mb-2'>Processing Mode</Text>
+                                <Radio
+                                    options={MODES}
+                                    checkedValue={selectedMode}
+                                    onChange={(value) => setSelectedMode(value)}
+                                />
+                            </View>
+
+                        </View>
                     </BottomSheet>
                 )
             }
