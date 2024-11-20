@@ -1,8 +1,9 @@
+import { memo } from 'react'
 import { Pressable } from 'react-native'
 import Animated, { FadeIn, FadeOut, SlideInDown, SlideOutDown } from 'react-native-reanimated'
 
 
-const BottomSheet = ({ children, toggleSheet }) => {
+const BottomSheet = memo(({ children, toggleSheet }) => {
     const AnimatedPressable = Animated.createAnimatedComponent(Pressable)
 
     return (
@@ -19,6 +20,5 @@ const BottomSheet = ({ children, toggleSheet }) => {
             </Animated.View>
         </>
     )
-}
-
+})
 export default BottomSheet
