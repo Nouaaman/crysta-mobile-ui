@@ -15,7 +15,7 @@ const Radio = ({ options, checkedValue, onChange, containerStyle }) => {
                         <Text className='font-psemibold text-lg text-white'>{option.label}</Text>
                         {
                             option.description &&
-                            <Text className=' text-textBody' >{option.description}</Text>
+                            <Text className='font-pregular text-textBody' >{option.description}</Text>
                         }
                     </TouchableOpacity>
                 ))

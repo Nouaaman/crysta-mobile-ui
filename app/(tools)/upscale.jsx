@@ -11,6 +11,7 @@ import OptionsButton from '../../components/buttons/optionsButton'
 import { useState } from 'react'
 import BottomSheet from '../../components/bottomSheet'
 import Radio from '../../components/radio'
+import useUpscale from '../../hooks/useUpscale'
 
 
 const MODES = [
@@ -23,10 +24,10 @@ const MODES = [
 ]
 
 const UPSCALE_FACTOR = [
-    { label: 'x2', value: 2 },
-    { label: 'x3', value: 3 },
-    { label: 'x4', value: 4 },
-    { label: 'x8', value: 8 },
+    { label: '2x', value: 2 },
+    { label: '3x', value: 3 },
+    { label: '4x', value: 4 },
+    { label: '8x', value: 8 },
 ]
 
 const Upscale = () => {
@@ -34,6 +35,25 @@ const Upscale = () => {
     const [selectedUpsclaeFactor, setSelectedUpsclaeFactor] = useState(UPSCALE_FACTOR[0].value);
     const [selectedMode, setSelectedMode] = useState(MODES[0].value);
     const [sheetIsOpen, setSheetIsOpen] = useState(false)
+    const [upscaledImage, setUpscaledImage] = useState(null);
+
+    const {
+        upscaleImage,
+        cancelUpscale,
+        progress,
+        isUpscaling,
+        error,
+    } = useUpscale()
+
+
+
+    const handleUpscalePress = async () => {
+        // Perform upscaling here
+        const result = await upscaleImage(imageData, { modelType: selectedMode, scale: selectedUpsclaeFactor });
+        if (result) {
+            setUpscaledImage(result);
+        }
+    };
 
 
     const toggleSheet = () => {
@@ -75,7 +95,10 @@ const Upscale = () => {
                 </View>
                 {/* options */}
                 <View className='flex-col w-full mt-8 p-4 pb-5 border-t-2 border-purple-400/10'>
-                    <Text className='px-2 mb-4 text-xl text-textBody font-psemibold'>Preset: x4 • Fast</Text>
+                    <Text className='px-2 mb-4 text-xl text-textBody font-psemibold'>
+                        Preset: {UPSCALE_FACTOR.find((option) => option.value === selectedUpsclaeFactor)?.label} •{' '}
+                        {MODES.find((option) => option.value === selectedMode)?.label}
+                    </Text>
                     <View className='flex-row items-center gap-4 justify-stretch w-full '>
                         <OptionsButton title={'Options'} handlePress={toggleSheet} />
                         <ActionButton title='Upscale' />
@@ -108,6 +131,7 @@ const Upscale = () => {
                                     onChange={(value) => setSelectedUpsclaeFactor(value)}
                                     containerStyle={'flex-row gap-3 mt-4 items-center justify-center'}
                                 />
+                                <Text className='text-center text-sm text-textBody p-2'>The output will be {selectedUpsclaeFactor} times larger than the original image.</Text>
                             </View>
                             {/* modes */}
                             <View className='mb-9'>
