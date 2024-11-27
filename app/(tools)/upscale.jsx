@@ -37,11 +37,7 @@ const Upscale = () => {
     const { upscaleImage, cancelUpscale, progress, isUpscaling, error } = useUpscale();
 
     const handleUpscalePress = async () => {
-        if (!selectedImage) return;
-        const result = await upscaleImage(selectedImage, { modelType: selectedMode, scale: selectedUpscaleFactor });
-        if (result) {
-            setUpscaledImage(result);
-        }
+
     };
 
     const toggleSheet = () => {
