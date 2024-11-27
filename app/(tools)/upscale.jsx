@@ -87,6 +87,7 @@ const Upscale = () => {
                 </View>
             </Animated.View>
 
+            {/* bottom sheet */}
             {sheetIsOpen && (
                 <BottomSheet toggleSheet={toggleSheet}>
                     <View className="flex-row items-center justify-between mb-6">
