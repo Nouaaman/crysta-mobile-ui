@@ -1,60 +1,48 @@
-import { View, Text, Image, TouchableOpacity } from 'react-native'
-import Animated, { FadeInDown, FadeInUp } from 'react-native-reanimated'
-import ToolsHeader from '../../components/toolsHeader'
-import ActionButton from '../../components/buttons/actionButton'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import * as expoImgPicker from 'expo-image-picker'
-import { icons, images } from '../../constants'
-import { router } from 'expo-router'
-import ImagePicker from '../../components/ImagePicker'
-import OptionsButton from '../../components/buttons/optionsButton'
-import { useState } from 'react'
-import BottomSheet from '../../components/bottomSheet'
-import Radio from '../../components/radio'
-import useUpscale from '../../hooks/useUpscale'
-
+import { View, Text, Image, TouchableOpacity } from 'react-native';
+import Animated, { FadeInDown } from 'react-native-reanimated';
+import ToolsHeader from '../../components/toolsHeader';
+import ActionButton from '../../components/buttons/actionButton';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import * as expoImgPicker from 'expo-image-picker';
+import { icons, images } from '../../constants';
+import { router } from 'expo-router';
+import ImagePicker from '../../components/ImagePicker';
+import OptionsButton from '../../components/buttons/optionsButton';
+import { useState } from 'react';
+import BottomSheet from '../../components/bottomSheet';
+import Radio from '../../components/radio';
+import useUpscale from '../../hooks/useUpscale';
+import { WebView } from 'react-native-webview';
+import upscaleScript from '../../utils/upscaleScript.js'
 
 const MODES = [
-    {
-        label: 'Fast Mode', description: 'Fast and efficient. Ideal for low-end devices or when speed is the priority.', value: 'fast'
-    },
-    {
-        label: 'Detailed Mode', description: 'Best sharpness and clarity. May take longer and can slow down the device.', value: 'detailed'
-    },
-]
+    { label: 'Fast Mode', description: 'Fast and efficient. Ideal for low-end devices or when speed is the priority.', value: 'slim' },
+    { label: 'Detailed Mode', description: 'Best sharpness and clarity. May take longer and can slow down the device.', value: 'medium' },
+];
 
 const UPSCALE_FACTOR = [
     { label: '2x', value: 2 },
     { label: '3x', value: 3 },
     { label: '4x', value: 4 },
     { label: '8x', value: 8 },
-]
+];
 
 const Upscale = () => {
     const [selectedImage, setSelectedImage] = useState(null);
-    const [selectedUpsclaeFactor, setSelectedUpsclaeFactor] = useState(UPSCALE_FACTOR[0].value);
+    const [selectedUpscaleFactor, setSelectedUpscaleFactor] = useState(UPSCALE_FACTOR[0].value);
     const [selectedMode, setSelectedMode] = useState(MODES[0].value);
-    const [sheetIsOpen, setSheetIsOpen] = useState(false)
+    const [sheetIsOpen, setSheetIsOpen] = useState(false);
     const [upscaledImage, setUpscaledImage] = useState(null);
 
-    const {
-        upscaleImage,
-        cancelUpscale,
-        progress,
-        isUpscaling,
-        error,
-    } = useUpscale()
-
-
+    const { upscaleImage, cancelUpscale, progress, isUpscaling, error } = useUpscale();
 
     const handleUpscalePress = async () => {
-        // Perform upscaling here
-        const result = await upscaleImage(imageData, { modelType: selectedMode, scale: selectedUpsclaeFactor });
+        if (!selectedImage) return;
+        const result = await upscaleImage(selectedImage, { modelType: selectedMode, scale: selectedUpscaleFactor });
         if (result) {
             setUpscaledImage(result);
         }
     };
-
 
     const toggleSheet = () => {
         setSheetIsOpen(!sheetIsOpen);
@@ -62,7 +50,7 @@ const Upscale = () => {
 
     const pickImageAsync = async () => {
         let result = await expoImgPicker.launchImageLibraryAsync({
-            mediaTypes: ['images'],
+            mediaTypes: expoImgPicker.MediaTypeOptions.Images,
             quality: 1,
         });
 
@@ -77,80 +65,66 @@ const Upscale = () => {
 
     return (
         <SafeAreaView className="flex-1 bg-primary">
-            {/* bg radial gradient and patterns */}
-            <Image source={images.topRightRadialGradient} resizeMode='cover' className='absolute top-0 left-0 w-full h-full' />
-            {/* header */}
-            <View className='p-4'>
-                <ToolsHeader title='Upscale' subtitle='Transform your low-resolution images into high-quality visuals.' goBack={() => router.back()} />
+            <Image source={images.topRightRadialGradient} resizeMode="cover" className="absolute top-0 left-0 w-full h-full" />
+            <View className="p-4">
+                <ToolsHeader title="Upscale" subtitle="Transform your low-resolution images into high-quality visuals." goBack={() => router.back()} />
             </View>
-            {/* content */}
-            <Animated.View entering={FadeInDown.delay(200)} className='flex-1 justify-between'>
-                {/* upscale image */}
-                <View className='flex-1 items-start justify-center'>
-                    <View className=' w-full h-auto  mt-4 px-4 '>
-                        <View className='flex w-full items-center justify-center'>
+            <Animated.View entering={FadeInDown.delay(200)} className="flex-1 justify-between">
+                <View className="flex-1 items-start justify-center">
+                    <View className="w-full h-auto mt-4 px-4">
+                        <View className="flex w-full items-center justify-center">
                             <ImagePicker handlePress={pickImageAsync} selectedImage={selectedImage} handleCancel={handleCancel} />
                         </View>
                     </View>
                 </View>
-                {/* options */}
-                <View className='flex-col w-full mt-8 p-4 pb-5 border-t-2 border-purple-400/10'>
-                    <Text className='px-2 mb-4 text-xl text-textBody font-psemibold'>
-                        Preset: {UPSCALE_FACTOR.find((option) => option.value === selectedUpsclaeFactor)?.label} •{' '}
+                <View className="flex-col w-full mt-8 p-4 pb-5 border-t-2 border-purple-400/10">
+                    <Text className="px-2 mb-4 text-xl text-textBody font-psemibold">
+                        Preset: {UPSCALE_FACTOR.find((option) => option.value === selectedUpscaleFactor)?.label} •{' '}
                         {MODES.find((option) => option.value === selectedMode)?.label}
                     </Text>
-                    <View className='flex-row items-center gap-4 justify-stretch w-full '>
-                        <OptionsButton title={'Options'} handlePress={toggleSheet} />
-                        <ActionButton title='Upscale' />
+                    <View className="flex-row items-center gap-4 justify-stretch w-full">
+                        <OptionsButton title="Options" handlePress={toggleSheet} />
+                        <ActionButton title={isUpscaling ? 'Cancel' : 'Upscale'} handlePress={isUpscaling ? cancelUpscale : handleUpscalePress} />
                     </View>
+                    {isUpscaling && <Text className="text-center mt-2">Progress: {Math.round(progress * 100)}%</Text>}
+                    {error && <Text className="text-center mt-2 text-red-500">{error}</Text>}
                 </View>
             </Animated.View>
-            {/* bottom sheet  options*/}
-            {
-                sheetIsOpen && (
-                    <BottomSheet toggleSheet={toggleSheet}>
-                        <View className='flex-row items-center justify-between mb-6'>
-                            <Text className='text-3xl text-textBody font-psemibold '>Options</Text>
 
-                            <TouchableOpacity
-                                onPress={toggleSheet}
-                                className='pl-2'
-                            >
-                                <Image source={icons.arrowDown} resizeMode='contain' className=' size-10' />
-                            </TouchableOpacity>
+            {sheetIsOpen && (
+                <BottomSheet toggleSheet={toggleSheet}>
+                    <View className="flex-row items-center justify-between mb-6">
+                        <Text className="text-3xl text-textBody font-psemibold">Options</Text>
+                        <TouchableOpacity onPress={toggleSheet} className="pl-2">
+                            <Image source={icons.arrowDown} resizeMode="contain" className="size-10" />
+                        </TouchableOpacity>
+                    </View>
+                    <View>
+                        <View className="mb-8">
+                            <Text className="text-xl text-textBody font-pbold">Upscaling Factor</Text>
+                            <Text className="text-textBody">Choose how much you want to enlarge the image</Text>
+                            <Radio
+                                options={UPSCALE_FACTOR}
+                                checkedValue={selectedUpscaleFactor}
+                                onChange={(value) => setSelectedUpscaleFactor(value)}
+                                containerStyle="flex-row gap-3 mt-4 items-center justify-center"
+                            />
                         </View>
-                        {/* options  */}
-                        <View>
-                            {/* upscaling factor */}
-                            <View className='mb-8'>
-                                <Text className='text-xl text-textBody font-pbold '>Upscaling Factor</Text>
-                                <Text className=' text-textBody'>Choose how much you want to enlarge the image</Text>
-                                <Radio
-                                    options={UPSCALE_FACTOR}
-                                    checkedValue={selectedUpsclaeFactor}
-                                    onChange={(value) => setSelectedUpsclaeFactor(value)}
-                                    containerStyle={'flex-row gap-3 mt-4 items-center justify-center'}
-                                />
-                                <Text className='text-center text-sm text-textBody p-2'>The output will be {selectedUpsclaeFactor} times larger than the original image.</Text>
-                            </View>
-                            {/* modes */}
-                            <View className='mb-9'>
-                                <Text className='text-xl text-textBody font-pbold mb-2'>Processing Mode</Text>
-                                <Radio
-                                    options={MODES}
-                                    checkedValue={selectedMode}
-                                    onChange={(value) => setSelectedMode(value)}
-                                    containerStyle={'flex gap-3'}
-                                />
-                            </View>
-
+                        <View className="mb-9">
+                            <Text className="text-xl text-textBody font-pbold mb-2">Processing Mode</Text>
+                            <Radio
+                                options={MODES}
+                                checkedValue={selectedMode}
+                                onChange={(value) => setSelectedMode(value)}
+                                containerStyle="flex gap-3"
+                            />
                         </View>
-                    </BottomSheet>
-                )
-            }
+                    </View>
+                </BottomSheet>
+            )}
 
         </SafeAreaView>
-    )
-}
+    );
+};
 
-export default Upscale
+export default Upscale;

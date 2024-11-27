@@ -1,65 +1,73 @@
-import { useState, useRef, useCallback } from 'react';
-import Upscaler from 'upscaler';
-import mediumModels from '@upscalerjs/esrgan-medium';
-import slimModels from '@upscalerjs/esrgan-slim';
+import { useState, useEffect } from 'react';
+import { Platform } from 'react-native';
+import * as FileSystem from 'expo-file-system';
 
-const modelMap = {
-    medium: mediumModels,
-    slim: slimModels,
+const CDN_BASE_URL = 'https://cdn.jsdelivr.net/npm';
+const MODELS = {
+    slim: 'esrgan-slim',
+    medium: 'esrgan-medium',
+};
+const SCALES = {
+    2: '2x',
+    3: '3x',
+    4: '4x',
+    8: '8x',
+};
+
+// Helper to load external scripts
+const loadScript = (src) => {
+    return new Promise((resolve, reject) => {
+        const script = document.createElement('script');
+        script.src = src;
+        script.onload = resolve;
+        script.onerror = reject;
+        document.head.appendChild(script);
+    });
 };
 
 const useUpscale = () => {
-    const [progress, setProgress] = useState(0);
     const [isUpscaling, setIsUpscaling] = useState(false);
+    const [progress, setProgress] = useState(0);
     const [error, setError] = useState(null);
-    const cancelRef = useRef(null);
 
-    const upscaleImage = useCallback(async (imageData, { modelType, scale }) => {
-        const selectedModel = modelMap[modelType][`x${scale}`];
-        if (!selectedModel) {
-            setError('Invalid model selection');
-            return null;
-        }
-
-        const upscaler = new Upscaler({ model: selectedModel });
-        cancelRef.current = () => upscaler.abort();
-
+    const upscaleImage = async (imageUri, { modelType, scale }) => {
         setIsUpscaling(true);
-        setProgress(0);
         setError(null);
 
         try {
-            const upscaledImage = await upscaler.upscale(imageData, {
-                output: 'base64',
-                patchSize: 128, // Adjust for performance
-                progress: (progress) => setProgress(progress),
+            const modelScript = `${CDN_BASE_URL}/@upscalerjs/${MODELS[modelType]}@latest/dist/umd/${SCALES[scale]}.min.js`;
+            const upscalerScript = `${CDN_BASE_URL}/upscaler@latest/dist/browser/umd/upscaler.min.js`;
+
+            // Load the model and Upscaler scripts
+            await loadScript(modelScript);
+            await loadScript(upscalerScript);
+
+            // Initialize Upscaler
+            const upscaler = new window.Upscaler({
+                model: window[`ESRGANSlim${scale}x`], // Access global model
             });
-            setIsUpscaling(false);
-            return upscaledImage;
+
+            // Process image (can include a progress callback if needed)
+            const result = await upscaler.upscale(imageUri, {
+                patchSize: 64,
+                progress: (value) => setProgress(value),
+            });
+
+            return result;
         } catch (err) {
-            if (err.name === 'AbortError') {
-                setError('Upscaling was canceled');
-            } else {
-                setError('Upscaling failed');
-            }
-            setIsUpscaling(false);
+            setError('Upscaling failed. Please try again.');
             return null;
+        } finally {
+            setIsUpscaling(false);
         }
-    }, []);
-
-    const cancelUpscale = useCallback(() => {
-        if (cancelRef.current) {
-            cancelRef.current();
-        }
-    }, []);
-
-    return {
-        upscaleImage,
-        cancelUpscale,
-        progress,
-        isUpscaling,
-        error,
     };
+
+    const cancelUpscale = () => {
+        // Implement cancel logic if applicable
+        setIsUpscaling(false);
+    };
+
+    return { upscaleImage, cancelUpscale, progress, isUpscaling, error };
 };
 
 export default useUpscale;
