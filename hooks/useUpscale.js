@@ -7,7 +7,6 @@ const useUpscale = () => {
     const [isUpscaling, setIsUpscaling] = useState(false);
     const [error, setError] = useState(null);
     const [upscaledImage, setUpscaledImage] = useState(null);
-    const [abortController, setAbortController] = useState(null); // For canceling the operation
 
 
     useEffect(() => {
@@ -16,6 +15,7 @@ const useUpscale = () => {
             console.log('From node: ', payload);
             switch (payload.type) {
                 case 'UPSCALED':
+                    console.log(payload);
                     setUpscaledImage(payload.data.image);
                     setIsUpscaling(false);
                     break;
@@ -35,9 +35,6 @@ const useUpscale = () => {
         setIsUpscaling(true);
         setError(null);
         setUpscaledImage(null);
-
-        const controller = new AbortController();
-        setAbortController(controller);
 
         try {
             nodejs.channel.send({
