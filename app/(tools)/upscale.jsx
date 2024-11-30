@@ -1,3 +1,4 @@
+import React from 'react'
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import ToolsHeader from '../../components/toolsHeader';
@@ -8,12 +9,14 @@ import { icons, images } from '../../constants';
 import { router } from 'expo-router';
 import ImagePicker from '../../components/ImagePicker';
 import OptionsButton from '../../components/buttons/optionsButton';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import BottomSheet from '../../components/bottomSheet';
 import Radio from '../../components/radio';
-import useUpscale from '../../hooks/useUpscale';
-import { WebView } from 'react-native-webview';
-import upscaleScript from '../../utils/upscaleScript.js'
+
+import nodejs from 'nodejs-mobile-react-native';
+
+
+
 
 const MODES = [
     { label: 'Fast Mode', description: 'Fast and efficient. Ideal for low-end devices or when speed is the priority.', value: 'slim' },
@@ -34,7 +37,6 @@ const Upscale = () => {
     const [sheetIsOpen, setSheetIsOpen] = useState(false);
     const [upscaledImage, setUpscaledImage] = useState(null);
 
-    const { upscaleImage, cancelUpscale, progress, isUpscaling, error } = useUpscale();
 
     const handleUpscalePress = async () => {
 
@@ -59,6 +61,14 @@ const Upscale = () => {
         setSelectedImage(null);
     };
 
+
+    useEffect(() => {
+        nodejs.start('main.js');
+        nodejs.channel.addListener('message', (msg) => {
+            console.log('From node: ' + msg);
+        });
+    });
+
     return (
         <SafeAreaView className="flex-1 bg-primary">
             <Image source={images.topRightRadialGradient} resizeMode="cover" className="absolute top-0 left-0 w-full h-full" />
@@ -78,12 +88,14 @@ const Upscale = () => {
                         Preset: {UPSCALE_FACTOR.find((option) => option.value === selectedUpscaleFactor)?.label} •{' '}
                         {MODES.find((option) => option.value === selectedMode)?.label}
                     </Text>
+                    {/* action buttons */}
                     <View className="flex-row items-center gap-4 justify-stretch w-full">
                         <OptionsButton title="Options" handlePress={toggleSheet} />
-                        <ActionButton title={isUpscaling ? 'Cancel' : 'Upscale'} handlePress={isUpscaling ? cancelUpscale : handleUpscalePress} />
+                        {/* <ActionButton title={isUpscaling ? 'Cancel' : 'Upscale'} handlePress={isUpscaling ? cancelUpscale : handleUpscalePress} /> */}
+                        <ActionButton title='upsclae' handlePress={() => nodejs.channel.send('action btn press !')} />
                     </View>
-                    {isUpscaling && <Text className="text-center mt-2">Progress: {Math.round(progress * 100)}%</Text>}
-                    {error && <Text className="text-center mt-2 text-red-500">{error}</Text>}
+                    {/* {isUpscaling && <Text className="text-center mt-2">Progress: {Math.round(progress * 100)}%</Text>}
+                    {error && <Text className="text-center mt-2 text-red-500">{error}</Text>} */}
                 </View>
             </Animated.View>
 

@@ -1,4 +1,5 @@
 import { Stack } from "expo-router"
+import React from "react"
 
 const ToulsLayout = () => {
     return (
@@ -6,8 +7,6 @@ const ToulsLayout = () => {
             screenOptions={{
                 headerShown: false,
             }}
-
-
         >
             <Stack.Screen name="deblur" />
             <Stack.Screen name="enhance" />
