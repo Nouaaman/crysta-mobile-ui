@@ -15,11 +15,11 @@ const useUpscale = () => {
         nodejs.channel.addListener('message', (payload) => {
             console.log('From node: ', payload);
             switch (payload.type) {
-                case 'upscaled':
+                case 'UPSCALED':
                     setUpscaledImage(payload.data.image);
                     setIsUpscaling(false);
                     break;
-                case 'error':
+                case 'ERROR':
                     setError(payload.data.message);
                     setIsUpscaling(false);
                     break;

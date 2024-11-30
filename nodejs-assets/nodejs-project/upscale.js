@@ -44,14 +44,14 @@ const upscaleImage = async (selectedImage, modelType, scaleFactor) => {
         })
         const upscaledTensor = await tf.node.encodePng(tensor)
         //return the upscaled image to react-native
-        rn_bridge.channel.send({ type: 'upscaled', data: { image: upscaledTensor } });
+        rn_bridge.channel.send({ type: 'UPSCALED', data: { image: upscaledTensor } });
         // dispose the tensors!
         image.dispose()
         tensor.dispose()
         upscaledTensor.dispose()
     } catch (error) {
         console.log(error)
-        rn_bridge.channel.send({ type: 'error', data: error.message });
+        rn_bridge.channel.send({ type: 'ERROR', data: error.message });
     }
 
 }
@@ -70,7 +70,6 @@ rn_bridge.channel.on('message', (payload) => {
     if (payload.type === 'CANCEL') {
         upscaler.abort()
         console.log('Upscaling process has been canceled.');
-
     }
 });
 
