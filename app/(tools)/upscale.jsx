@@ -12,10 +12,7 @@ import OptionsButton from '../../components/buttons/optionsButton';
 import { useEffect, useState } from 'react';
 import BottomSheet from '../../components/bottomSheet';
 import Radio from '../../components/radio';
-
-import nodejs from 'nodejs-mobile-react-native';
-
-
+import useUpscale from '../../hooks/useUpscale';
 
 
 const MODES = [
@@ -33,12 +30,17 @@ const UPSCALE_FACTOR = [
 const Upscale = () => {
     const [selectedImage, setSelectedImage] = useState(null);
     const [selectedUpscaleFactor, setSelectedUpscaleFactor] = useState(UPSCALE_FACTOR[0].value);
-    const [selectedMode, setSelectedMode] = useState(MODES[0].value);
+    const [selectedModel, setSelectedModel] = useState(MODES[0].value);
     const [sheetIsOpen, setSheetIsOpen] = useState(false);
-    const [upscaledImage, setUpscaledImage] = useState(null);
+    const [editedImage, setEditedImage] = useState(null);
+
+    const { cancelUpscale, upscaleImage, upscaledImage, error, isUpscaling } = useUpscale();
 
 
     const handleUpscalePress = async () => {
+        //TODO: Implement the upscaleImage function
+        if (!selectedImage) return;
+        await upscaleImage(selectedImage, selectedModel, selectedUpscaleFactor)
 
     };
 
@@ -47,10 +49,12 @@ const Upscale = () => {
     };
 
     const pickImageAsync = async () => {
-        let result = await expoImgPicker.launchImageLibraryAsync({
-            mediaTypes: expoImgPicker.MediaTypeOptions.Images,
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ['images'],
+            allowsEditing: true,
             quality: 1,
         });
+
 
         if (!result.canceled) {
             setSelectedImage(result.assets[0].uri);
@@ -62,12 +66,6 @@ const Upscale = () => {
     };
 
 
-    useEffect(() => {
-        nodejs.start('main.js');
-        nodejs.channel.addListener('message', (msg) => {
-            console.log('From node: ' + msg);
-        });
-    });
 
     return (
         <SafeAreaView className="flex-1 bg-primary">
@@ -86,13 +84,12 @@ const Upscale = () => {
                 <View className="flex-col w-full mt-8 p-4 pb-5 border-t-2 border-purple-400/10">
                     <Text className="px-2 mb-4 text-xl text-textBody font-psemibold">
                         Preset: {UPSCALE_FACTOR.find((option) => option.value === selectedUpscaleFactor)?.label} •{' '}
-                        {MODES.find((option) => option.value === selectedMode)?.label}
+                        {MODES.find((option) => option.value === selectedModel)?.label}
                     </Text>
                     {/* action buttons */}
                     <View className="flex-row items-center gap-4 justify-stretch w-full">
                         <OptionsButton title="Options" handlePress={toggleSheet} />
-                        {/* <ActionButton title={isUpscaling ? 'Cancel' : 'Upscale'} handlePress={isUpscaling ? cancelUpscale : handleUpscalePress} /> */}
-                        <ActionButton title='upsclae' handlePress={() => nodejs.channel.send('action btn press !')} />
+                        <ActionButton title={isUpscaling ? 'Cancel' : 'Upscale'} handlePress={isUpscaling ? cancelUpscale : handleUpscalePress} />
                     </View>
                     {/* {isUpscaling && <Text className="text-center mt-2">Progress: {Math.round(progress * 100)}%</Text>}
                     {error && <Text className="text-center mt-2 text-red-500">{error}</Text>} */}
@@ -123,8 +120,8 @@ const Upscale = () => {
                             <Text className="text-xl text-textBody font-pbold mb-2">Processing Mode</Text>
                             <Radio
                                 options={MODES}
-                                checkedValue={selectedMode}
-                                onChange={(value) => setSelectedMode(value)}
+                                checkedValue={selectedModel}
+                                onChange={(value) => setSelectedModel(value)}
                                 containerStyle="flex gap-3"
                             />
                         </View>
