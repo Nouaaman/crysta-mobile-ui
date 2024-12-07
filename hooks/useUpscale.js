@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import nodejs from 'nodejs-mobile-react-native';
 
 
@@ -15,7 +15,7 @@ const useUpscale = () => {
             console.log('From node: ', payload);
             switch (payload.type) {
                 case 'UPSCALED':
-                    console.log(payload);
+                    console.log('UPASCALED : ', payload);
                     setUpscaledImage(payload.data.image);
                     setIsUpscaling(false);
                     break;

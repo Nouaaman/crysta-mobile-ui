@@ -64,6 +64,7 @@ rn_bridge.channel.on('message', (payload) => {
     // rn_bridge.channel.send(payload);
 
     if (payload.type === 'UPSCALE') {
+        console.log('Upscaling process....');
         const { selectedImage, model, upscaleFactor } = payload.data;
         upscaleImage(selectedImage, model, upscaleFactor)
     }
@@ -74,4 +75,4 @@ rn_bridge.channel.on('message', (payload) => {
 });
 
 // Inform react-native node is initialized.
-rn_bridge.channel.send("Node was initialized.");
+rn_bridge.channel.send("Node was initialized. in upscale.js File...");
