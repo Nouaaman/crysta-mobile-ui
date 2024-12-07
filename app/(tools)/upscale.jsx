@@ -48,7 +48,7 @@ const Upscale = () => {
     };
 
     const pickImageAsync = async () => {
-        let result = await ImagePicker.launchImageLibraryAsync({
+        let result = await expoImgPicker.launchImageLibraryAsync({
             mediaTypes: ['images'],
             allowsEditing: true,
             quality: 1,
