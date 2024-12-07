@@ -36,7 +36,6 @@ const Upscale = () => {
 
     const { cancelUpscale, upscaleImage, upscaledImage, error, isUpscaling } = useUpscale();
 
-
     const handleUpscalePress = async () => {
         //TODO: Implement the upscaleImage function
         if (!selectedImage) return;
@@ -54,7 +53,6 @@ const Upscale = () => {
             allowsEditing: true,
             quality: 1,
         });
-
 
         if (!result.canceled) {
             setSelectedImage(result.assets[0].uri);
