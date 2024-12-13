@@ -38,8 +38,18 @@ const Upscale = () => {
 
     const handleUpscalePress = async () => {
         //TODO: Implement the upscaleImage function
-        if (!selectedImage) return;
+        // if (!selectedImage) return;
+        if (!selectedImage) console.log('No image selected');
+
         await upscaleImage(selectedImage, selectedModel, selectedUpscaleFactor)
+
+        if (upscaledImage) {
+            setEditedImage(upscaledImage);
+            console.log('Upscaled image: ', upscaledImage);
+        }
+        if (error) {
+            console.error('Error: ', error);
+        }
 
     };
 
@@ -75,7 +85,7 @@ const Upscale = () => {
                 <View className="flex-1 items-start justify-center">
                     <View className="w-full h-auto mt-4 px-4">
                         <View className="flex w-full items-center justify-center">
-                            <ImagePicker handlePress={pickImageAsync} selectedImage={selectedImage} handleCancel={handleCancel} />
+                            <ImagePicker handlePress={pickImageAsync} selectedImage={editedImage ? editedImage : selectedImage} handleCancel={handleCancel} />
                         </View>
                     </View>
                 </View>
