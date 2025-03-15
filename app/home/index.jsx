@@ -1,3 +1,4 @@
+import React from 'react'
 import { View, Text, Image, ScrollView } from 'react-native'
 import { images, icons } from '../../constants'
 import MaskedContent from '../../components/maskedContent'
