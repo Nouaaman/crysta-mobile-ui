@@ -14,8 +14,7 @@ const ImagePicker = ({ selectedImage, handlePress, disabled, handleCancel }) => 
             <View className='w-full max-w-[640px] h-full '>
                 <Image source={imageSource}
                     className='flex-1'
-                    // contentFit='contain'
-                    resizeMode='contain'
+                    resizeMode='cover'
                 />
             </View>
             {/* choose photo btn */}
@@ -26,13 +25,13 @@ const ImagePicker = ({ selectedImage, handlePress, disabled, handleCancel }) => 
                             onPress={handlePress}
                             activeOpacity={0.7}
                             disabled={disabled}
-                            className='absolute w-26 h-26'
+                            className='absolute w-26 h-26 shadow-lg rounded-full'
                         >
                             <View className='p-8 size-full bg-purple1/50 rounded-full '>
-                                <Image source={icons.plus} contentFit='contain' className='size-full' />
+                                <Image source={icons.plus} contentFit='contain' className='size-10' />
                             </View>
                         </TouchableOpacity>
-                        <Text className='absolute bottom-[30%] text-textBody text-xl font-pmedium text-center'>Choose image from gallery</Text>
+                        <Text className='absolute bottom-[34%] text-textBody text-xl font-pmedium text-center'>Choose image from gallery</Text>
                     </>
                 )
                     : (
