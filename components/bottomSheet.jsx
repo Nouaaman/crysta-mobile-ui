@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Pressable } from 'react-native'
 import Animated, { FadeIn, FadeOut, SlideInDown, SlideOutDown } from 'react-native-reanimated'
 
@@ -22,4 +23,9 @@ const BottomSheet = ({ children, toggleSheet }) => {
         </>
     )
 }
+BottomSheet.propTypes = {
+    children: PropTypes.node.isRequired,
+    toggleSheet: PropTypes.func.isRequired,
+}
+
 export default BottomSheet

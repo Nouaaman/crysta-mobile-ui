@@ -1,3 +1,5 @@
+import React from 'react';
+import PropTypes from 'prop-types';
 import { View, Text, TouchableOpacity, Image } from 'react-native'
 import { icons } from '../constants'
 import { } from 'expo-image'
@@ -11,8 +13,9 @@ const ImagePicker = ({ selectedImage, handlePress, disabled, handleCancel }) => 
         <View className='flex w-full items-center justify-center bg-purple1/10 rounded-2xl overflow-hidden'>
             <View className='w-full max-w-[640px] h-full '>
                 <Image source={imageSource}
-                    className='size-full'
-                    contentFit='contain'
+                    className='flex-1'
+                    // contentFit='contain'
+                    resizeMode='contain'
                 />
             </View>
             {/* choose photo btn */}
@@ -23,22 +26,22 @@ const ImagePicker = ({ selectedImage, handlePress, disabled, handleCancel }) => 
                             onPress={handlePress}
                             activeOpacity={0.7}
                             disabled={disabled}
-                            className='absolute w-24 h-24 '
+                            className='absolute w-26 h-26'
                         >
-                            <View className='p-7 size-full bg-purple1/50 rounded-full '>
+                            <View className='p-8 size-full bg-purple1/50 rounded-full '>
                                 <Image source={icons.plus} contentFit='contain' className='size-full' />
                             </View>
                         </TouchableOpacity>
-                        <Text className='absolute bottom-[25%] text-textBody text-xl font-pmedium text-center'>Choose image from gallery</Text>
+                        <Text className='absolute bottom-[30%] text-textBody text-xl font-pmedium text-center'>Choose image from gallery</Text>
                     </>
                 )
                     : (
                         <TouchableOpacity
                             onPress={handleCancel}
                             activeOpacity={0.7}
-                            className='absolute top-4 right-4 w-10 h-10 '
+                            className='absolute top-4 right-4 w-14 h-14 '
                         >
-                            <View className='p-2 size-full bg-black/25 rounded-full '>
+                            <View className='p-2 size-full bg-black/30 rounded-full '>
                                 <Image source={icons.x} contentFit='contain' className='size-full shadow-lg ' />
                             </View>
                         </TouchableOpacity>
@@ -48,5 +51,11 @@ const ImagePicker = ({ selectedImage, handlePress, disabled, handleCancel }) => 
         </View>
     )
 }
+ImagePicker.propTypes = {
+    selectedImage: PropTypes.string,
+    handlePress: PropTypes.func.isRequired,
+    disabled: PropTypes.bool,
+    handleCancel: PropTypes.func.isRequired,
+};
 
-export default ImagePicker
+export default ImagePicker;

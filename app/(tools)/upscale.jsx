@@ -12,7 +12,7 @@ import OptionsButton from '../../components/buttons/optionsButton';
 import { useEffect, useState } from 'react';
 import BottomSheet from '../../components/bottomSheet';
 import Radio from '../../components/radio';
-import useUpscale from '../../hooks/useUpscale';
+// import useUpscale from '../../hooks/useUpscale';
 
 
 const MODES = [
@@ -34,22 +34,22 @@ const Upscale = () => {
     const [sheetIsOpen, setSheetIsOpen] = useState(false);
     const [editedImage, setEditedImage] = useState(null);
 
-    const { cancelUpscale, upscaleImage, upscaledImage, error, isUpscaling } = useUpscale();
+    // const { cancelUpscale, upscaleImage, upscaledImage, error, isUpscaling } = useUpscale();
 
     const handleUpscalePress = async () => {
         //TODO: Implement the upscaleImage function
         // if (!selectedImage) return;
         if (!selectedImage) console.log('No image selected');
 
-        await upscaleImage(selectedImage, selectedModel, selectedUpscaleFactor)
+        // await upscaleImage(selectedImage, selectedModel, selectedUpscaleFactor)
 
-        if (upscaledImage) {
-            setEditedImage(upscaledImage);
-            console.log('Upscaled image: ', upscaledImage);
-        }
-        if (error) {
-            console.error('Error: ', error);
-        }
+        // if (upscaledImage) {
+        //     setEditedImage(upscaledImage);
+        //     console.log('Upscaled image: ', upscaledImage);
+        // }
+        // if (error) {
+        //     console.error('Error: ', error);
+        // }
 
     };
 
@@ -97,7 +97,8 @@ const Upscale = () => {
                     {/* action buttons */}
                     <View className="flex-row items-center gap-4 justify-stretch w-full">
                         <OptionsButton title="Options" handlePress={toggleSheet} />
-                        <ActionButton title={isUpscaling ? 'Cancel' : 'Upscale'} handlePress={isUpscaling ? cancelUpscale : handleUpscalePress} />
+                        {/* <ActionButton title={isUpscaling ? 'Cancel' : 'Upscale'} handlePress={isUpscaling ? cancelUpscale : handleUpscalePress} /> */}
+                        <ActionButton title='Upscale' handlePress={handleUpscalePress} />
                     </View>
                     {/* {isUpscaling && <Text className="text-center mt-2">Progress: {Math.round(progress * 100)}%</Text>}
                     {error && <Text className="text-center mt-2 text-red-500">{error}</Text>} */}
