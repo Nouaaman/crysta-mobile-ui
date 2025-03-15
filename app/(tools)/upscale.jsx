@@ -9,7 +9,7 @@ import { icons, images } from '../../constants';
 import { router } from 'expo-router';
 import ImagePicker from '../../components/ImagePicker';
 import OptionsButton from '../../components/buttons/optionsButton';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import BottomSheet from '../../components/bottomSheet';
 import Radio from '../../components/radio';
 // import useUpscale from '../../hooks/useUpscale';
