@@ -44,7 +44,6 @@ const Upscale = () => {
     const [selectedModel, setSelectedModel] = useState(MODES[0].value);
     const [sheetIsOpen, setSheetIsOpen] = useState(false);
     const [editedImage, setEditedImage] = useState(null);
-
     // const { cancelUpscale, upscaleImage, upscaledImage, error, isUpscaling } = useUpscale();
 
     const handleUpscalePress = async () => {
