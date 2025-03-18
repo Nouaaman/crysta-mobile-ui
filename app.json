@@ -15,7 +15,8 @@
       "backgroundColor": "#161622"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.nouaaman.Crysta"
     },
     "android": {
       "adaptiveIcon": {
@@ -23,7 +24,6 @@
         "backgroundColor": "#161622"
       },
       "permissions": [
-        "android.permission.RECORD_AUDIO",
         "android.permission.RECORD_AUDIO"
       ],
       "package": "com.nouaaman.Crysta"
