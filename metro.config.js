@@ -8,8 +8,8 @@ const blacklist = require("metro-config/src/defaults/exclusionList");
 
 const config = getDefaultConfig(__dirname);
 
-//add .bin for models
-config.resolver.sourceExts = [...config.resolver.sourceExts, "bin"];
+//add .bin and json for models
+config.resolver.sourceExts = [...config.resolver.sourceExts, "bin", "json"];
 
 // Modify the resolver to blacklist nodejs-assets, android, and ios folders
 config.resolver.blacklistRE = blacklist([

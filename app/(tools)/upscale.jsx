@@ -12,28 +12,29 @@ import OptionsButton from "../../components/buttons/optionsButton";
 import { useState } from "react";
 import BottomSheet from "../../components/bottomSheet";
 import Radio from "../../components/radio";
-// import useUpscale from '../../hooks/useUpscale';
+import useUpscalerModel from "@/hooks/upscale/useUpscalerModel";
+import useImageUpscaler from "@/hooks/upscale/useImageUpscaler";
 
-const MODES = [
+const MODELS = [
     {
         label: "Fast Mode",
         description:
             "Fast and efficient. Ideal for low-end devices or when speed is the priority.",
-        value: "slim",
+        value: "esrgan-slim",
     },
     {
         label: "Detailed Mode",
         description:
             "Best sharpness and clarity. May take longer and can slow down the device.",
-        value: "medium",
+        value: "esrgan-medium",
     },
 ];
 
 const UPSCALE_FACTOR = [
-    { label: "2x", value: 2 },
-    { label: "3x", value: 3 },
-    { label: "4x", value: 4 },
-    { label: "8x", value: 8 },
+    { label: "2x", value: "x2" },
+    { label: "3x", value: "x3" },
+    { label: "4x", value: "x4" },
+    { label: "8x", value: "x8" },
 ];
 
 const Upscale = () => {
@@ -41,42 +42,61 @@ const Upscale = () => {
     const [selectedUpscaleFactor, setSelectedUpscaleFactor] = useState(
         UPSCALE_FACTOR[0].value,
     );
-    const [selectedModel, setSelectedModel] = useState(MODES[0].value);
+    const [selectedModel, setSelectedModel] = useState(MODELS[0].value);
     const [sheetIsOpen, setSheetIsOpen] = useState(false);
     const [editedImage, setEditedImage] = useState(null);
-    // const { cancelUpscale, upscaleImage, upscaledImage, error, isUpscaling } = useUpscale();
+
+    const {
+        getModel,
+        isLoading,
+        error: modelError,
+    } = useUpscalerModel({
+        selectedModel,
+        selectedUpscaleFactor,
+    });
+
+    const {
+        pickImage,
+        upscaleImage,
+        upscaledImage,
+        isProcessing,
+        error: upscaleError,
+    } = useImageUpscaler();
 
     const handleUpscalePress = async () => {
         //TODO: Implement the upscaleImage function
-        // if (!selectedImage) return;
-        if (!selectedImage) console.log("No image selected");
+        if (!selectedImage) {
+            console.log("No image selected");
+            return;
+        }
+        const model = await getModel(selectedModel, selectedUpscaleFactor);
+        // Use model for inference
+        await upscaleImage(model, selectedImage);
 
-        // await upscaleImage(selectedImage, selectedModel, selectedUpscaleFactor)
-
-        // if (upscaledImage) {
-        //     setEditedImage(upscaledImage);
-        //     console.log('Upscaled image: ', upscaledImage);
-        // }
-        // if (error) {
-        //     console.error('Error: ', error);
-        // }
+        if (upscaledImage) {
+            setEditedImage(upscaledImage);
+            console.log("Upscaled image: ", upscaledImage);
+        }
+        if (upscaleError) {
+            console.error("Error: ", upscaleError);
+        }
     };
 
     const toggleSheet = () => {
         setSheetIsOpen(!sheetIsOpen);
     };
 
-    const pickImageAsync = async () => {
-        let result = await expoImgPicker.launchImageLibraryAsync({
-            mediaTypes: ["images"],
-            allowsEditing: true,
-            quality: 1,
-        });
+    // const pickImageAsync = async () => {
+    //     let result = await expoImgPicker.launchImageLibraryAsync({
+    //         mediaTypes: ["images"],
+    //         allowsEditing: true,
+    //         quality: 1,
+    //     });
 
-        if (!result.canceled) {
-            setSelectedImage(result.assets[0].uri);
-        }
-    };
+    //     if (!result.canceled) {
+    //         setSelectedImage(result.assets[0].uri);
+    //     }
+    // };
 
     const handleCancel = () => {
         setSelectedImage(null);
@@ -104,7 +124,7 @@ const Upscale = () => {
                     <View className="w-full h-auto mt-4 px-4">
                         <View className="flex w-full items-center justify-center">
                             <ImagePicker
-                                handlePress={pickImageAsync}
+                                handlePress={pickImage}
                                 selectedImage={
                                     editedImage ? editedImage : selectedImage
                                 }
@@ -124,7 +144,7 @@ const Upscale = () => {
                         }{" "}
                         •{" "}
                         {
-                            MODES.find(
+                            MODELS.find(
                                 (option) => option.value === selectedModel,
                             )?.label
                         }
@@ -186,7 +206,7 @@ const Upscale = () => {
                                 Processing Mode
                             </Text>
                             <Radio
-                                options={MODES}
+                                options={MODELS}
                                 checkedValue={selectedModel}
                                 onChange={(value) => setSelectedModel(value)}
                                 containerStyle="flex gap-3"
