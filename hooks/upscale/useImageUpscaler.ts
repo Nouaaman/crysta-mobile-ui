@@ -86,3 +86,5 @@ const useImageUpscaler = () => {
         pickImage,
     };
 };
+
+export default useImageUpscaler;
