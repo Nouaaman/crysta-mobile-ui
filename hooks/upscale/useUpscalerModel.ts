@@ -2,7 +2,7 @@ import { useState, useCallback, useRef } from "react";
 import * as tf from "@tensorflow/tfjs";
 import "@tensorflow/tfjs-react-native";
 import { bundleResourceIO } from "@tensorflow/tfjs-react-native";
-import { getModelAssets } from "../../utils/modelLoader";
+import { loadModelAssets } from "../../utils/modelLoader";
 
 type ScaleFactor = "x2" | "x3" | "x4" | "x8";
 type ModelType = "esrgan-slim" | "esrgan-medium";
@@ -42,7 +42,7 @@ const useUpscalerModel = () => {
                 await tf.ready();
 
                 // Load model assets
-                const { modelJson, modelWeights } = getModelAssets(
+                const { modelJson, modelWeights } = await loadModelAssets(
                     modelType,
                     scaleFactor,
                 );
