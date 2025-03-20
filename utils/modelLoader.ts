@@ -6,7 +6,6 @@ export const loadModelAssets = async (
     scaleFactor: string,
 ) => {
     try {
-
         const modelAssets = {
             //esrgan-slim
             "esrgan-slim-x2": {
