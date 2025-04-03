@@ -1,10 +1,9 @@
-import React from "react";
-import { View, Text, Image, TouchableOpacity } from "react-native";
+import React, { useEffect } from "react";
+import { View, Text, Image, TouchableOpacity, Alert } from "react-native";
 import Animated, { FadeInDown } from "react-native-reanimated";
 import ToolsHeader from "../../components/toolsHeader";
 import ActionButton from "../../components/buttons/actionButton";
 import { SafeAreaView } from "react-native-safe-area-context";
-import * as expoImgPicker from "expo-image-picker";
 import { icons, images } from "../../constants";
 import { router } from "expo-router";
 import ImagePicker from "../../components/ImagePicker";
@@ -12,8 +11,11 @@ import OptionsButton from "../../components/buttons/optionsButton";
 import { useState } from "react";
 import BottomSheet from "../../components/bottomSheet";
 import Radio from "../../components/radio";
-import useUpscalerModel from "@/hooks/upscale/useUpscalerModel";
+// import useUpscalerModel from "@/hooks/upscale/useUpscalerModel";
 import useImageUpscaler from "@/hooks/upscale/useImageUpscaler";
+import { bundleResourceIO } from "@tensorflow/tfjs-react-native";
+import * as tf from "@tensorflow/tfjs";
+import { loadModelAssets } from "../../utils/modelLoader";
 
 const MODELS = [
    {
@@ -38,25 +40,53 @@ const UPSCALE_FACTOR = [
 ];
 
 const Upscale = () => {
-   const [selectedImage, setSelectedImage] = useState(null);
+   // const [selectedImage, setSelectedImage] = useState(null);
    const [selectedUpscaleFactor, setSelectedUpscaleFactor] = useState(
       UPSCALE_FACTOR[0].value,
    );
    const [selectedModel, setSelectedModel] = useState(MODELS[0].value);
+   const [model, setModel] = useState(null);
    const [sheetIsOpen, setSheetIsOpen] = useState(false);
    const [editedImage, setEditedImage] = useState(null);
 
-   const {
-      getModel,
-      isLoading,
-      error: modelError,
-   } = useUpscalerModel({
-      selectedModel,
-      selectedUpscaleFactor,
-   });
+   useEffect(() => {
+      const loadModel = async () => {
+         try {
+            // Load TensorFlow.js
+            await tf.ready();
+            console.log('============ state:', selectedModel, selectedUpscaleFactor);
+
+            // Load model assets
+            const modelAssets = loadModelAssets(selectedModel, selectedUpscaleFactor);
+            if (!modelAssets) {
+               throw new Error("Failed to load model assets");
+            }
+            const { modelJson, modelWeights } = modelAssets;
+
+            // Load model
+            const model = await tf.loadLayersModel(
+               bundleResourceIO(modelJson, modelWeights),
+               // Remove signal property
+               {},
+            );
+            if (!model) {
+               throw new Error("Failed to load model");
+            }
+            console.log("Model loaded successfully");
+            setModel(model);
+         } catch (error) {
+            console.log("Error loading model:", error);
+         }
+      };
+      loadModel();
+   }
+      , [selectedModel, selectedUpscaleFactor]);
+
 
    const {
       pickImage,
+      setPickedImage,
+      pickedImage,
       upscaleImage,
       upscaledImage,
       isProcessing,
@@ -64,14 +94,19 @@ const Upscale = () => {
    } = useImageUpscaler();
 
    const handleUpscalePress = async () => {
-      //TODO: Implement the upscaleImage function
-      if (!selectedImage) {
-         console.log("No image selected");
+      console.log("Upscale button pressed");
+
+
+      if (!pickedImage) {
+         Alert.alert('No image selected', 'Please select an image to upscale.');
          return;
       }
-      const model = await getModel(selectedModel, selectedUpscaleFactor);
-      // Use model for inference
-      await upscaleImage(model, selectedImage);
+      if (!model) {
+         Alert.alert('Model not loaded', 'Please wait for the model to load.');
+         return;
+      }
+
+      await upscaleImage(model);
 
       if (upscaledImage) {
          setEditedImage(upscaledImage);
@@ -86,20 +121,8 @@ const Upscale = () => {
       setSheetIsOpen(!sheetIsOpen);
    };
 
-   // const pickImageAsync = async () => {
-   //     let result = await expoImgPicker.launchImageLibraryAsync({
-   //         mediaTypes: ["images"],
-   //         allowsEditing: true,
-   //         quality: 1,
-   //     });
-
-   //     if (!result.canceled) {
-   //         setSelectedImage(result.assets[0].uri);
-   //     }
-   // };
-
    const handleCancel = () => {
-      setSelectedImage(null);
+      setPickedImage(null);
    };
 
    return (
@@ -126,7 +149,7 @@ const Upscale = () => {
                      <ImagePicker
                         handlePress={pickImage}
                         selectedImage={
-                           editedImage ? editedImage : selectedImage
+                           editedImage ? editedImage : pickedImage
                         }
                         handleCancel={handleCancel}
                      />
