@@ -31,7 +31,6 @@ const useImageUpscaler = () => {
          return;
       }
 
-
       let imageTensor: tf.Tensor | null = null;
       let normalized: tf.Tensor | null = null;
       let outputTensor: tf.Tensor | null = null;
@@ -40,13 +39,11 @@ const useImageUpscaler = () => {
          // Image preprocessing
          if (!pickedImage) {
             throw new Error("No image selected");
-            return
          }
          setIsProcessing(true);
          console.log("==================== Upscaling image...");
 
          setError(null);
-
 
          const { uri } = pickedImage;
          const response = await fetch(uri);
@@ -55,12 +52,13 @@ const useImageUpscaler = () => {
 
          // Normalize and prepare tensor
          normalized = imageTensor.toFloat().div(255).expandDims(0);
+         tf.dispose(imageTensor); // Dispose of imageTensor immediately after use
 
          // Model inference
          outputTensor = model.predict(normalized) as tf.Tensor;
+         tf.dispose(normalized); // Dispose of normalized tensor immediately after use
 
          // Convert tensor to image
-         // Convert tensor to base64 using helper
          const base64 = await tensorToBase64(outputTensor);
          setUpscaledImage(base64);
          console.log("==================== Upscaled image: ", base64);
@@ -74,11 +72,9 @@ const useImageUpscaler = () => {
       } finally {
          setIsProcessing(false);
          // Cleanup remaining tensors
-         tf.dispose(
-            [imageTensor, normalized, outputTensor].filter(
-               Boolean,
-            ) as unknown as tf.Tensor[],
-         );
+         if (outputTensor) {
+            tf.dispose(outputTensor); // Dispose of outputTensor in the finally block
+         }
       }
    };
 
