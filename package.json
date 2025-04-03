@@ -24,7 +24,7 @@
         "expo-build-properties": "~0.13.2",
         "expo-camera": "^16.0.18",
         "expo-constants": "~17.0.8",
-        "expo-dev-client": "~5.0.14",
+        "expo-dev-client": "~5.0.18",
         "expo-font": "~13.0.4",
         "expo-gl": "^15.0.4",
         "expo-image": "~2.0.6",

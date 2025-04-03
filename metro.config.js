@@ -1,5 +1,5 @@
 const {
-    wrapWithReanimatedMetroConfig,
+   wrapWithReanimatedMetroConfig,
 } = require("react-native-reanimated/metro-config");
 
 const { getDefaultConfig } = require("expo/metro-config");
@@ -9,12 +9,12 @@ const blacklist = require("metro-config/src/defaults/exclusionList");
 const config = getDefaultConfig(__dirname);
 
 //add .bin and json for models
-config.resolver.sourceExts = [...config.resolver.sourceExts, "bin", "json"];
+config.resolver.assetExts = [...config.resolver.assetExts, "bin", "json"];
 
 // Modify the resolver to blacklist nodejs-assets, android, and ios folders
 config.resolver.blacklistRE = blacklist([
-    /\/android\/.*/, // Exclude android folder
-    /\/ios\/.*/, // Exclude ios folder
+   /\/android\/.*/, // Exclude android folder
+   /\/ios\/.*/, // Exclude ios folder
 ]);
 
 const configWithNativeWind = withNativeWind(config, { input: "./global.css" });
