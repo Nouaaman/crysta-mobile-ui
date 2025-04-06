@@ -42,6 +42,7 @@ const useImageUpscaler = () => {
          if (!pickedImage) {
             throw new Error("No image selected");
          }
+         tf.engine().startScope(); // Start a new scope for memory management
          setIsProcessing(true);
          console.log("==================== Upscaling image...");
 
@@ -54,22 +55,21 @@ const useImageUpscaler = () => {
 
          // Use tf.tidy to manage memory and dispose of intermediate tensors
          let base64: string | null = null;
-         tf.engine().startScope(); // Start a new scope for memory management
          outputTensor = tf.tidy(() => {
+            console.log("============= Memory Before upscaling:", tf.memory());
+
             const imageTensor = decodeJpeg(new Uint8Array(imgData));
             const normalized = imageTensor.toFloat().div(255).expandDims(0);
-            tf.dispose(imageTensor); // Dispose imageTensor immediately after use
+            // tf.dispose(imageTensor); // Dispose imageTensor immediately after use
 
             const output = model.predict(normalized) as tf.Tensor;
-            tf.dispose(normalized); // Dispose normalized tensor immediately after use
+            // tf.dispose(normalized); // Dispose normalized tensor immediately after use
+            console.log("============= Memory After upscaling:", tf.memory());
             return output;
          });
 
          // Convert output tensor to base64 outside of tf.tidy
          base64 = await tensorToBase64(outputTensor);
-         tf.dispose(outputTensor); // Dispose outputTensor after conversion
-
-         tf.engine().endScope(); // End the scope to free up memory
 
          if (!base64) {
             throw new Error("Failed to process image");
@@ -77,6 +77,7 @@ const useImageUpscaler = () => {
 
          setUpscaledImage(base64);
          console.log("==================== Upscaled image: ", base64);
+
 
       } catch (err) {
          setError(
@@ -86,10 +87,12 @@ const useImageUpscaler = () => {
 
       } finally {
          setIsProcessing(false);
-         // Cleanup remaining tensors
+
          if (outputTensor) {
             tf.dispose(outputTensor); // Dispose of outputTensor in the finally block
          }
+         tf.engine().endScope();
+
       }
    };
 
