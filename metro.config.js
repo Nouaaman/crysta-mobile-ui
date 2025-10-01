@@ -4,18 +4,10 @@ const {
 
 const { getDefaultConfig } = require("expo/metro-config");
 const { withNativeWind } = require("nativewind/metro");
-const blacklist = require("metro-config/src/defaults/exclusionList");
+
 
 const config = getDefaultConfig(__dirname);
 
-//add .bin and json for models
-config.resolver.assetExts = [...config.resolver.assetExts, "bin", "json"];
-
-// Modify the resolver to blacklist nodejs-assets, android, and ios folders
-config.resolver.blacklistRE = blacklist([
-   /\/android\/.*/, // Exclude android folder
-   /\/ios\/.*/, // Exclude ios folder
-]);
 
 const configWithNativeWind = withNativeWind(config, { input: "./global.css" });
 

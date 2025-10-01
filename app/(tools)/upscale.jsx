@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { View, Text, Image, TouchableOpacity, Alert } from "react-native";
 import Animated, { FadeInDown } from "react-native-reanimated";
 import ToolsHeader from "../../components/toolsHeader";
@@ -11,11 +11,8 @@ import OptionsButton from "../../components/buttons/optionsButton";
 import { useState } from "react";
 import BottomSheet from "../../components/bottomSheet";
 import Radio from "../../components/radio";
-// import useUpscalerModel from "@/hooks/upscale/useUpscalerModel";
-import useImageUpscaler from "@/hooks/upscale/useImageUpscaler";
-import { bundleResourceIO } from "@tensorflow/tfjs-react-native";
-import * as tf from "@tensorflow/tfjs";
-import { loadModelAssets } from "../../utils/modelLoader";
+import * as expoImgPicker from "expo-image-picker";
+
 
 const MODELS = [
    {
@@ -40,81 +37,30 @@ const UPSCALE_FACTOR = [
 ];
 
 const Upscale = () => {
-   // const [selectedImage, setSelectedImage] = useState(null);
+   const [pickedImage, setPickedImage] = useState(null)
    const [selectedUpscaleFactor, setSelectedUpscaleFactor] = useState(
       UPSCALE_FACTOR[0].value,
    );
    const [selectedModel, setSelectedModel] = useState(MODELS[0].value);
-   const [model, setModel] = useState(null);
+
    const [sheetIsOpen, setSheetIsOpen] = useState(false);
-   const [editedImage, setEditedImage] = useState(null);
-
-   useEffect(() => {
-      const loadModel = async () => {
-         try {
-            // Load TensorFlow.js
-            await tf.ready();
-            console.log('============ state:', selectedModel, selectedUpscaleFactor);
-
-            // Load model assets
-            const modelAssets = loadModelAssets(selectedModel, selectedUpscaleFactor);
-            if (!modelAssets) {
-               throw new Error("Failed to load model assets");
-            }
-            const { modelJson, modelWeights } = modelAssets;
-
-            // Load model
-            const model = await tf.loadLayersModel(
-               bundleResourceIO(modelJson, modelWeights),
-               // Remove signal property
-               {},
-            );
-            if (!model) {
-               throw new Error("Failed to load model");
-            }
-            console.log("Model loaded successfully");
-            setModel(model);
-         } catch (error) {
-            console.log("Error loading model:", error);
-         }
-      };
-      loadModel();
-   }
-      , [selectedModel, selectedUpscaleFactor]);
 
 
-   const {
-      pickImage,
-      setPickedImage,
-      pickedImage,
-      upscaleImage,
-      upscaledImage,
-      isProcessing,
-      error: upscaleError,
-   } = useImageUpscaler();
 
+
+   const pickImage = async () => {
+      const pickerResult = await expoImgPicker.launchImageLibraryAsync({
+         mediaTypes: ["images"],
+         quality: 1,
+         base64: true,
+      });
+
+      if (!pickerResult.canceled) {
+         setPickedImage({ uri: pickerResult.assets[0].uri });
+      }
+   };
    const handleUpscalePress = async () => {
       console.log("Upscale button pressed");
-
-
-      if (!pickedImage) {
-         Alert.alert('No image selected', 'Please select an image to upscale.');
-         return;
-      }
-      if (!model) {
-         Alert.alert('Model not loaded', 'Please wait for the model to load.');
-         return;
-      }
-
-      await upscaleImage(model);
-
-      if (upscaledImage) {
-         setEditedImage(upscaledImage);
-         console.log("Upscaled image: ", upscaledImage);
-      }
-      if (upscaleError) {
-         console.error("Error: ", upscaleError);
-      }
    };
 
    const toggleSheet = () => {
@@ -122,7 +68,7 @@ const Upscale = () => {
    };
 
    const handleCancel = () => {
-      setPickedImage(null);
+      console.log("Cancel image selection");
    };
 
    return (
@@ -149,7 +95,7 @@ const Upscale = () => {
                      <ImagePicker
                         handlePress={pickImage}
                         selectedImage={
-                           editedImage ? editedImage : pickedImage
+                           pickedImage
                         }
                         handleCancel={handleCancel}
                      />
