@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, Image, TouchableOpacity, Alert } from "react-native";
+import { View, Text, Image, TouchableOpacity } from "react-native";
 import Animated, { FadeInDown } from "react-native-reanimated";
 import ToolsHeader from "../../components/toolsHeader";
 import ActionButton from "../../components/buttons/actionButton";
@@ -19,13 +19,13 @@ const MODELS = [
       label: "Fast Mode",
       description:
          "Fast and efficient. Ideal for low-end devices or when speed is the priority.",
-      value: "esrgan-slim",
+      value: "fast-mode",
    },
    {
       label: "Detailed Mode",
       description:
          "Best sharpness and clarity. May take longer and can slow down the device.",
-      value: "esrgan-medium",
+      value: "detailed-mode",
    },
 ];
 
@@ -44,9 +44,6 @@ const Upscale = () => {
    const [selectedModel, setSelectedModel] = useState(MODELS[0].value);
 
    const [sheetIsOpen, setSheetIsOpen] = useState(false);
-
-
-
 
    const pickImage = async () => {
       const pickerResult = await expoImgPicker.launchImageLibraryAsync({
