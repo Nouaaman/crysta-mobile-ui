@@ -2,6 +2,16 @@
 
 This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
 
+## Preview
+
+<div style="display: flex; gap: 12px;">
+     <video src="assets/demo/-video.mp4" width="220" controls></video>
+    <img src="assets/demo/1.jpg" width="220" alt="demo 1" />
+    <img src="assets/demo/2.jpg" width="220" alt="demo 2" />
+    <img src="assets/demo/3.jpg" width="220" alt="demo 3" />
+    <img src="assets/demo/4.jpg" width="220" alt="demo 4" />
+</div>
+
 ## Get started
 
 1. Install dependencies
